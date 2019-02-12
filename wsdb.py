@@ -22,6 +22,14 @@ def connect():
         user='', # db username here
         password='') # db password here
 
+class connCache:
+    conn = None
 
-def getsql(sql, conn=connect()):
+def getsql(sql, conn=None):
+    if conn is None:
+        if connCache.conn is None:
+            conn = connect()
+            connCache.conn = conn
+        else:
+            conn = connCache.conn
     return sqlutilpy.get(sql, conn=conn, asDict=True)
